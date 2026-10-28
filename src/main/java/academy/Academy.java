@@ -23,7 +23,7 @@ public final class Academy {
     // One comparator reused everywhere:
     // sort by name, then by ID as tie-breaker.
     private static final Comparator<Student> BY_NAME_THEN_ID =
-            Comparator.comparing(Student::name)
+            Comparator.comparing(Student::name, String.CASE_INSENSITIVE_ORDER)
                     .thenComparingInt(Student::id);
 
     public void addStudent(Student student) {
