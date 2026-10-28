@@ -12,13 +12,26 @@ public final class StudentFileLoader {
 
     public static List<Student> load(Path path) throws IOException {
         List<Student> students = new ArrayList<>();
+        List<String> lines = SimpleFiles.readLines(path);
 
-        for (String line : SimpleFiles.readLines(path)) {
+        for (int i = 0; i < lines.size(); i++) {
+            String line = lines.get(i);
+
+            if (i == 0 && line.startsWith("\uFEFF")) {
+                // Strip a UTF-8 byte order mark (e.g. from Windows Notepad).
+                line = line.substring(1);
+            }
+
             if (line.isBlank()) {
                 continue;
             }
 
-            students.add(parseLine(line));
+            try {
+                students.add(parseLine(line));
+            } catch (IllegalArgumentException e) {
+                throw new IllegalArgumentException(
+                        "line " + (i + 1) + ": " + e.getMessage(), e);
+            }
         }
 
         return students;
