@@ -58,4 +58,13 @@ class FileIntegrationTest {
 
         assertEquals(report, SimpleFiles.readLines(file));
     }
+
+    @Test
+    void load_lineWithFiveColumns_throwsIllegalArgument(@TempDir Path dir) throws IOException {
+        Path file = dir.resolve("students.txt");
+        Files.write(file, List.of("1;Ann;ann@example.com;Brussels;extra"));
+
+        assertThrows(IllegalArgumentException.class,
+                () -> StudentFileLoader.load(file));
+    }
 }
