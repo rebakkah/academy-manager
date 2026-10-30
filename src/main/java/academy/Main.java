@@ -53,9 +53,10 @@ public final class Main {
         academy.register(1, 20);
         academy.register(4, 20);
 
+        Path reportPath = Path.of("output", "report.txt");
         List<ReportOutput> outputs = List.of(
                 new ConsoleReportOutput(),
-                new FileReportOutput(Path.of("output", "report.txt"))
+                new FileReportOutput(reportPath)
         );
 
         List<String> report = academy.buildReport();
