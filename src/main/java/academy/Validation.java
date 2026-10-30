@@ -12,7 +12,14 @@ final class Validation {
         if (value == null || value.isBlank()) {
             throw new IllegalArgumentException(field + " must not be blank");
         }
-        return value.trim();
+        String trimmed = value.trim();
+        if (trimmed.isEmpty()) {
+            throw new IllegalArgumentException(field + " must not be blank");
+        }
+        if (trimmed.chars().anyMatch(Character::isISOControl)) {
+            throw new IllegalArgumentException(field + " must not contain control characters");
+        }
+        return trimmed;
     }
 
     static int requirePositive(int value, String field) {
