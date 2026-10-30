@@ -33,4 +33,12 @@ class StudentFileLoaderTest {
 
         assertTrue(e.getMessage().startsWith("line 2:"), e.getMessage());
     }
+
+    @Test
+    void rejectsLineWithTabInName(@TempDir Path dir) throws IOException {
+        Path file = dir.resolve("students.txt");
+        Files.write(file, List.of("1;Ann\tEvil;ann@example.com;Brussels"));
+
+        assertThrows(IllegalArgumentException.class, () -> StudentFileLoader.load(file));
+    }
 }
