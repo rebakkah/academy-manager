@@ -72,9 +72,7 @@ public final class Academy {
     }
 
     public List<Student> searchStudents(String text) {
-        if (text == null) {
-            throw new IllegalArgumentException("text must not be null");
-        }
+        Validation.requireNonNull(text, "text");
 
         String query = text.trim().toLowerCase(Locale.ROOT);
 
